@@ -57,8 +57,13 @@ class TapTempoGui:
         ttk.Label(self.mainframe, text="Average BPM:", justify="right").grid(column=0, row=1)
         self.labelBPMAVG = ttk.Label(self.mainframe, textvariable=self.strBPMAVG)
         self.labelBPMAVG.grid(column=1, row=1)
-        
-        self.buttonTap = ttk.Button(self.mainframe, text="Tap", command=self.tap)
+
+        # Buttons
+        self.buttonTap = ttk.Button(self.mainframe, text="Tap")
+        # usually a button is clicked after releasing the
+        # mousebutton. For tapping the pressing of the button is more
+        # appropriate
+        self.buttonTap.bind("<ButtonPress-1>", lambda e: self.tap())
         self.buttonTap.grid(column=0, row=2)
 
         self.buttonReset = ttk.Button(self.mainframe, text="Reset", command=self.reset)

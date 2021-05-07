@@ -1,5 +1,5 @@
 import tkinter as tk
-from taptempo.taptempo import TapTempoGui
+from taptempo.gui import TapTempoGui
 
 root = tk.Tk()
 root.title("Tap Tempo")

@@ -5,10 +5,13 @@ class MidiInterface:
     """Open a midi port and listen for events. For every Note-On event, call a callback."""
     def __init__(self, callback):
         self.tapCallback = callback
+        self.midiin = None
         self.reset()
         
     def reset(self):
         """Reset the midi connection. All ports will be closed."""
+        if self.midiin and self.midiin.isPortOpen():
+            self.midiin.closePort()
         # we need a new instance of RtMidiIn() everytime after we
         # closed a port. see
         # <https://github.com/patrickkidd/pyrtmidi/issues/22>
@@ -24,7 +27,7 @@ class MidiInterface:
         portN = self.midiin.getPortCount()
         return dict([(i, self.midiin.getPortName(i)) for i in range(portN)])
 
-    def openPort(self, port: int):
+    def openPort(self, port):
         """Open a port with the corresponding number. Returns True un success,
         False on failure."""
         try:
@@ -37,11 +40,6 @@ class MidiInterface:
             self.portName = ""
             self.isConnected = False
         return self.isConnected
-
-    def closePort(self):
-        # TODO: integrate into reset method
-        self.midiin.closePort()
-        self.reset()
 
     def midiCallback(self, midiE):
         """This is the callback for RtMidiIn. When a Note-On Event occurs,

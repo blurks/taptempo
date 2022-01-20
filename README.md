@@ -10,4 +10,3 @@ GUI is build with tkinter.
 ## Installation
 
 The programm is available via pip: ``pip install taptempo``.
-

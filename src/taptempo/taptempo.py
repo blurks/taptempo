@@ -1,10 +1,11 @@
 import time
 
+
 class TapTempo:
     """Model to tap in a tempo."""
     def __init__(self):
         self.reset()
-        
+
     def tap(self):
         """Perform a single tap and calculate the bpm and averate bpm."""
         tap = time.time()

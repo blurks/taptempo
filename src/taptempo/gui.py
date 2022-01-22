@@ -25,7 +25,7 @@ class MidiOptionsDialog(tk.Toplevel):
         self.midiOn.trace_add("write", self.setRbtnState)
 
         # put widgets
-        optionsFrame = ttk.Frame(self, padding=(4,4,4,4))
+        optionsFrame = ttk.Frame(self, padding=(4, 4, 4, 4))
         optionsFrame.grid(row=0, column=0, sticky="nwse")
 
         # checkbox to enable/disable midi input
@@ -36,9 +36,9 @@ class MidiOptionsDialog(tk.Toplevel):
         # radiobuttons to chose the midiport
         self.rbtnFrame = ttk.Frame(optionsFrame)
         self.rbtnFrame.grid(row=2, column=0, columnspan=2, sticky="W")
-        
+
         ttk.Label(self.rbtnFrame, text="Chose a midi port").grid()
-        
+
         ports = self.midi.getPorts()
         for pNum in ports.keys():
             rbtn = tk.Radiobutton(self.rbtnFrame, text=ports[pNum],
@@ -50,9 +50,9 @@ class MidiOptionsDialog(tk.Toplevel):
         okButton = ttk.Button(optionsFrame, text="Ok", command=self.ok)
         okButton.grid(row=3, column=0)
 
-        cancelButton = ttk.Button(optionsFrame, text="Cancel", command=self.destroy)
+        cancelButton = ttk.Button(optionsFrame, text="Cancel",
+                                  command=self.destroy)
         cancelButton.grid(row=3, column=1)
-
 
     def setRbtnState(self, *args):
         """Set the state (disabled or normal) of the
@@ -63,7 +63,6 @@ class MidiOptionsDialog(tk.Toplevel):
                 widget.configure(state=tk.DISABLED)
             else:
                 widget.configure(state=tk.NORMAL)
-
 
     def ok(self):
         """Callback for the 'Ok' Button. Sets all options and destroys the
@@ -82,12 +81,15 @@ class MidiStatusBar(ttk.Frame):
     some configuration options."""
     def __init__(self, master, midiInterface):
         # init frame
-        ttk.Frame.__init__(self, master, padding=(4,0,0,0), borderwidth=2, relief="sunken")
+        ttk.Frame.__init__(self, master, padding=(4, 0, 0, 0), borderwidth=2,
+                           relief="sunken")
 
         # set variables
         self.midi = midiInterface
         self.portName = tk.StringVar()
-        self.portName.set(self.midi.portName if self.midi.isConnected else "Off")
+        self.portName.set(self.midi.portName
+                          if self.midi.isConnected
+                          else "Off")
 
         # put some widgets
         ttk.Label(self, text="MIDI:").grid(row=0, column=0)
@@ -104,10 +106,9 @@ class MidiStatusBar(ttk.Frame):
         # expand the middle column (containing the midi status)
         self.grid_columnconfigure(1, weight=1)
 
-
     def showOptions(self):
         """Show a dialog window that lets you set midi options."""
-        optionsDialog = MidiOptionsDialog(self, self.midi, self.portName)
+        MidiOptionsDialog(self, self.midi, self.portName)
 
 
 class TapTempoGui:
@@ -130,15 +131,18 @@ class TapTempoGui:
         self.midi = MidiInterface(self.tap)
         self.statusBar = MidiStatusBar(self.root, self.midi)
         self.statusBar.grid(column=0, row=1, sticky="nwse")
-        
+
         # BPM Labels
-        ttk.Label(self.mainframe, text="BPM:", justify="right").grid(column=0, row=0)
+        ttk.Label(self.mainframe, text="BPM:", justify="right").grid(column=0,
+                                                                     row=0)
         self.labelBPM = ttk.Label(self.mainframe, textvariable=self.strBPM)
         self.labelBPM.grid(column=1, row=0)
 
         # Average BPM Labels
-        ttk.Label(self.mainframe, text="Average BPM:", justify="right").grid(column=0, row=1)
-        self.labelBPMAVG = ttk.Label(self.mainframe, textvariable=self.strBPMAVG)
+        ttk.Label(self.mainframe, text="Average BPM:", justify="right"
+                  ).grid(column=0, row=1)
+        self.labelBPMAVG = ttk.Label(self.mainframe,
+                                     textvariable=self.strBPMAVG)
         self.labelBPMAVG.grid(column=1, row=1)
 
         # Buttons
@@ -149,31 +153,28 @@ class TapTempoGui:
         self.buttonTap.bind("<ButtonPress-1>", lambda e: self.tap())
         self.buttonTap.grid(column=0, row=2)
 
-        self.buttonReset = ttk.Button(self.mainframe, text="Reset", command=self.reset)
+        self.buttonReset = ttk.Button(self.mainframe, text="Reset",
+                                      command=self.reset)
         self.buttonReset.grid(column=1, row=2)
 
         # polish
-        for child in self.mainframe.winfo_children(): 
+        for child in self.mainframe.winfo_children():
             child.grid_configure(padx=5, pady=5)
-
 
     def update(self):
         """Update all labels."""
         self.strBPM.set("{:.2f}".format(self.tempo.bpm))
         self.strBPMAVG.set("{:.2f}".format(self.tempo.bpmAvg))
 
-
     def tap(self):
         """Perform a single tap and update the tempo labels."""
         self.tempo.tap()
         self.update()
 
-
     def reset(self):
         """Reset everything to zero."""
         self.tempo.reset()
         self.update()
-
 
     def run(self):
         """Run TK-Mainloop."""

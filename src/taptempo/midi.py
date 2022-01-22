@@ -2,12 +2,13 @@ import rtmidi
 
 
 class MidiInterface:
-    """Open a midi port and listen for events. For every Note-On event, call a callback."""
+    """Open a midi port and listen for events. For every Note-On event, call a
+    callback."""
     def __init__(self, callback):
         self.tapCallback = callback
         self.midiin = None
         self.reset()
-        
+
     def reset(self):
         """Reset the midi connection. All ports will be closed."""
         if self.midiin and self.midiin.isPortOpen():
@@ -35,7 +36,7 @@ class MidiInterface:
             self.portNumber = port
             self.portName = self.midiin.getPortName(port)
             self.isConnected = True
-        except:
+        except Exception:
             self.portNumber = 0
             self.portName = ""
             self.isConnected = False

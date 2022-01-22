@@ -29,9 +29,10 @@ class MidiOptionsDialog(tk.Toplevel):
         optionsFrame.grid(row=0, column=0, sticky="nwse")
 
         # checkbox to enable/disable midi input
-        midiOnCheck = tk.Checkbutton(optionsFrame, text="Enable midi input",
-                                     variable=self.midiOn)
-        midiOnCheck.grid(row=0, column=0, columnspan=2, sticky="W")
+        self.midiOnCheck = tk.Checkbutton(optionsFrame,
+                                          text="Enable midi input",
+                                          variable=self.midiOn)
+        self.midiOnCheck.grid(row=0, column=0, columnspan=2, sticky="W")
 
         # radiobuttons to chose the midiport
         self.rbtnFrame = ttk.Frame(optionsFrame)
@@ -47,8 +48,8 @@ class MidiOptionsDialog(tk.Toplevel):
         self.setRbtnState()
 
         # ok and cancel buttons
-        okButton = ttk.Button(optionsFrame, text="Ok", command=self.ok)
-        okButton.grid(row=3, column=0)
+        self.okButton = ttk.Button(optionsFrame, text="Ok", command=self.ok)
+        self.okButton.grid(row=3, column=0)
 
         cancelButton = ttk.Button(optionsFrame, text="Cancel",
                                   command=self.destroy)
@@ -178,10 +179,10 @@ class TapTempoGui:
 
     def run(self):
         """Run TK-Mainloop."""
-        self.root.mainloop()
+        self.root.mainloop()  # pragma: nocover
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: nocover
     root = tk.Tk()
     root.title("Tap Tempo")
     gui = TapTempoGui(root)

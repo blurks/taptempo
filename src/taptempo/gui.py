@@ -109,7 +109,13 @@ class MidiStatusBar(ttk.Frame):
 
     def showOptions(self):
         """Show a dialog window that lets you set midi options."""
-        MidiOptionsDialog(self, self.midi, self.portName)
+        dialog = [widget for widget in self.winfo_children()
+                  if isinstance(widget, MidiOptionsDialog)]
+        if not dialog:
+            MidiOptionsDialog(self, self.midi, self.portName)
+        else:
+            dialog[0].lift()
+            dialog[0].focus_set()
 
 
 class TapTempoGui:

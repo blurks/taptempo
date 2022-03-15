@@ -12,3 +12,4 @@ GUI is build with tkinter.
 The programm is available via pip: ``pip install taptempo``.
 
 ![Tests](https://github.com/blurks/taptempo/actions/workflows/tests.yml/badge.svg)
+[![PyPi](https://img.shields.io/pypi/v/taptempo)](https://pypi.org/project/taptempo/)
